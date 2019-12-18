@@ -22,4 +22,3 @@ function isResponseJsonPropertyEquals(property, expected) {
     var expectedString = JSON.stringify(expected);
     return `"pm.test(\\"Generated test: Expect response property\\", function () {\\n    var jsonData = pm.response.json();\\n    pm.expect(jsonData["${property}"]).to.eql(${expectedString});\\n});"`;
 }
-
