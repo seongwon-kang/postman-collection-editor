@@ -34,13 +34,9 @@ module.exports = {
         collectionArray.item.forEach((reqresSet) => {
             reqresSet.item.filter(reqresItem => this.usesHTTPMethod(reqresItem, method))
                 .forEach((item) => {
-                    item.event.push(new Event({
-                        listen: "test",
-                        script: {
-                            exec: [sniffet],
-                            type: "text/javascript"
-                        }
-                    }));
+                    item.event.filter((item=>item.listen === "test")).forEach(
+                        (event)=>event.script.exec.push(sniffet)
+                    );
                 });
         });
     }

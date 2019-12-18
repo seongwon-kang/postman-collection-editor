@@ -841,22 +841,25 @@ describe("add event to existing json", ()=> {
             ],
             "protocolProfileBehavior": {}
         };
-        collectionUtil.mapMethodtoSniffet(col, "GET", `'"pm.test(\\"Generated test: statuscode check(200)\\", function () {\\n    pm.response.to.have.status(200);\\n});"'`);
+        var statusCode = 200;
+        var sniffet = `pm.test("Generated test: statuscode check(${statusCode})", ()=> {pm.response.to.have.status(${statusCode});});`;
+        collectionUtil.mapMethodtoSniffet(col, "GET", sniffet);
         
         expect(col).not.toBeUndefined();
         var actuallJson = JSON.parse(JSON.stringify(col));
         
         //GET 1
-        expect(actuallJson.item[0].item[0].event.length).toBe(3);
-        expect(actuallJson.item[0].item[0].event[2].script.exec).toStrictEqual([`'"pm.test(\\"Generated test: statuscode check(200)\\", function () {\\n    pm.response.to.have.status(200);\\n});"'`]);
+        expect(actuallJson.item[0].item[0].event[1].script.exec.length).toBe(4);
+        expect(actuallJson.item[0].item[0].event[1].script.exec[3]).toStrictEqual(sniffet);
         
         //GET 2
-        expect(actuallJson.item[0].item[1].event.length).toBe(3);
-        expect(actuallJson.item[0].item[1].event[2].script.exec).toStrictEqual([`'"pm.test(\\"Generated test: statuscode check(200)\\", function () {\\n    pm.response.to.have.status(200);\\n});"'`]);
+        expect(actuallJson.item[0].item[1].event[1].script.exec.length).toBe(4);
+        expect(actuallJson.item[0].item[1].event[1].script.exec[3]).toStrictEqual(sniffet);
 
         //POST
-        expect(actuallJson.item[0].item[2].event.length).not.toBe(3);
-        expect(actuallJson.item[0].item[2].event[2]).toBeUndefined();
+        expect(actuallJson.item[0].item[2].event[1].script.exec.length).not.toBe(4);
+        expect(actuallJson.item[0].item[2].event[1].script.exec[3]).toBeUndefined();
+        fs.writeFileSync("collection-appended.json", JSON.stringify(actuallJson));
     });
 
 });
