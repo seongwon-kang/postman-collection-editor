@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/seongwon-kang/postman-collection-editor#readme",
   "dependencies": {
+    "args-parser": "^1.1.0",
     "inquirer": "^7.0.1",
     "postman-collection": "^3.5.5"
   }

@@ -12,13 +12,15 @@
     }
  * @param {*} statusCode 
  */
+module.exports = {
+    isStatus: function (statusCode) {
+        statusCode = statusCode || 200;
+        return `pm.test("Generated test: statuscode check(${statusCode})", ()=> {pm.response.to.have.status(${statusCode});});`;
+    },
+    
+    isResponseJsonPropertyEquals: function (property, expected) {
+        var expectedString = JSON.stringify(expected);
+        return `pm.test("Generated test: Expect response property", () =>{var jsonData = pm.response.json();pm.expect(jsonData["${property}"]).to.eql(${expectedString});});`;
+    }
 
-function isStatus(statusCode) {
-    statusCode = statusCode || 200;
-    return `pm.test("Generated test: statuscode check(${statusCode})", ()=> {pm.response.to.have.status(${statusCode});});`;
-}
-
-function isResponseJsonPropertyEquals(property, expected) {
-    var expectedString = JSON.stringify(expected);
-    return `pm.test("Generated test: Expect response property", () =>{var jsonData = pm.response.json();pm.expect(jsonData["${property}"]).to.eql(${expectedString});});`;
 }
