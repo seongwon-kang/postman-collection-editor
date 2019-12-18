@@ -1,4 +1,4 @@
-const {Collection, Item, Event} = require("postman-collection");
+const { Collection, Item, Event } = require("postman-collection");
 
 const Sniffets = require("../sniffets/sniffets");
 
@@ -23,16 +23,25 @@ module.exports = {
     usesHTTPMethod(item, method) {
         return item.request.method === method;
     },
-
-    mapMethodtoSniffet(items, method, sniffet) {
-        items.filter(item=>this.usesHTTPMethod(item, method)).forEach((item)=> {
-            item.event.push(new Event({
-                listen: "test",
-                script: {
-                    exec: [sniffet],
-                    type: "text/javascript"
-                }
-            }));
+    /**
+     * 
+     * @param {*} items Array (Collection.item)
+     * @param {*} method HTTP Method ["GET", "POST", "PUT", "DELETE"]
+     * @param {*} sniffet a jsonified string from `sniffet.js`
+     */
+    mapMethodtoSniffet(collectionArray, method, sniffet) {
+        // Request/Response Set resides in Folder
+        collectionArray.item.forEach((reqresSet) => {
+            reqresSet.item.filter(reqresItem => this.usesHTTPMethod(reqresItem, method))
+                .forEach((item) => {
+                    item.event.push(new Event({
+                        listen: "test",
+                        script: {
+                            exec: [sniffet],
+                            type: "text/javascript"
+                        }
+                    }));
+                });
         });
     }
 };
