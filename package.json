@@ -1,0 +1,22 @@
+{
+  "name": "postman-collection-editor",
+  "version": "1.0.0",
+  "description": "A postman collection editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seongwon-kang/postman-collection-editor.git"
+  },
+  "author": "seongwon-kang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seongwon-kang/postman-collection-editor/issues"
+  },
+  "homepage": "https://github.com/seongwon-kang/postman-collection-editor#readme",
+  "dependencies": {
+    "postman-collection": "^3.5.5"
+  }
+}
